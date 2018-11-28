@@ -13,4 +13,5 @@ import Foundation
 enum TrackingType {
     case head
     case eye
+    case mixed
 }

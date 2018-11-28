@@ -11,6 +11,6 @@ import UIKit
 
 struct Constants {
 
-    static let phoneScreenSize = CGSize(width: 0.0623908297, height: 0.135096943231532)
+    static let phoneScreenSize = CGSize(width: 0.0623908297 * 0.15, height: 0.135096943231532 * 0.15)
 
 }

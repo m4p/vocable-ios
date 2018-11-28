@@ -19,6 +19,8 @@ class FaceNode: SCNNode {
             self.showLookAtDirection = true
         case .head:
             self.showFaceDirection = true
+        case .mixed:
+            self.showFaceDirection = true
         }
     }
 

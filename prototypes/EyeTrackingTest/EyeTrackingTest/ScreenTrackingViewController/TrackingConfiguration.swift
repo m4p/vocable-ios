@@ -31,4 +31,8 @@ struct TrackingConfiguration {
         return TrackingConfiguration(trackingMethod: LookAtDirectionTrackingMethod(), trackingRegion: RectangleTrackingRegion(width: Constants.phoneScreenSize.width, height: Constants.phoneScreenSize.height), trackingType: .eye)
     }()
 
+    static let mixedTracking: TrackingConfiguration = {
+        return TrackingConfiguration(trackingMethod: MixedDirectionTrackingMethod(), trackingRegion:  RectangleTrackingRegion(width: Constants.phoneScreenSize.width, height: Constants.phoneScreenSize.height), trackingType: .mixed)
+    }()
+
 }

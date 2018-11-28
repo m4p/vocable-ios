@@ -46,6 +46,7 @@
 		13FE392421557DA900B6110F /* QuadrilateralTrackingRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE392321557DA900B6110F /* QuadrilateralTrackingRegion.swift */; };
 		13FE392721557E5500B6110F /* Quadrilateral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE392621557E5500B6110F /* Quadrilateral.swift */; };
 		13FE392921557E7500B6110F /* QuadrilateralInterpolator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE392821557E7500B6110F /* QuadrilateralInterpolator.swift */; };
+		BDA7B6A721A5D16300D8137B /* MixedDirectionTrackingMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA7B6A621A5D16300D8137B /* MixedDirectionTrackingMethod.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		13FE392321557DA900B6110F /* QuadrilateralTrackingRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralTrackingRegion.swift; sourceTree = "<group>"; };
 		13FE392621557E5500B6110F /* Quadrilateral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quadrilateral.swift; sourceTree = "<group>"; };
 		13FE392821557E7500B6110F /* QuadrilateralInterpolator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralInterpolator.swift; sourceTree = "<group>"; };
+		BDA7B6A621A5D16300D8137B /* MixedDirectionTrackingMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedDirectionTrackingMethod.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 				13A7B911214C027300714057 /* TrackingMethod.swift */,
 				13A7B913214C032A00714057 /* HeadDirectionIntersectionMethod.swift */,
 				13A7B915214C033700714057 /* LookAtDirectionIntersectionMethod.swift */,
+				BDA7B6A621A5D16300D8137B /* MixedDirectionTrackingMethod.swift */,
 			);
 			path = "Tracking Methods";
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				13B1865E2108E8030099D278 /* FaceNode.swift in Sources */,
 				13C32B8A2139A2440090BB7D /* IntersectionPointNode.swift in Sources */,
 				13FE391C2154166600B6110F /* ClosedRange+UnitSpace.swift in Sources */,
+				BDA7B6A721A5D16300D8137B /* MixedDirectionTrackingMethod.swift in Sources */,
 				13B71583214840F600B3612A /* ScreenTrackingViewControllerDelegate.swift in Sources */,
 				130C00B820D2AD2A007C3163 /* AppDelegate.swift in Sources */,
 				13FE3922215577E300B6110F /* ConfigurationListTableViewController.swift in Sources */,
@@ -489,7 +493,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H4UN8LXK26;
+				DEVELOPMENT_TEAM = 7UMFPW78PV;
 				INFOPLIST_FILE = "$(SRCROOT)/EyeTrackingTest/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -507,7 +511,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H4UN8LXK26;
+				DEVELOPMENT_TEAM = 7UMFPW78PV;
 				INFOPLIST_FILE = "$(SRCROOT)/EyeTrackingTest/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

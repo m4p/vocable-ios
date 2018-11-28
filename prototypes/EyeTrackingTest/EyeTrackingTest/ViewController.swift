@@ -86,9 +86,7 @@ class ViewController: UIViewController, ScreenTrackingViewControllerDelegate {
 
     let trackingView: UIView = UIView()
     lazy var screenTrackingViewController: ScreenTrackingViewController = {
-        let vc = ScreenTrackingViewController()
-        vc.delegate = self
-        return vc
+        return ScreenTrackingViewController()
     }()
 
     override func viewDidLoad() {
@@ -109,6 +107,16 @@ class ViewController: UIViewController, ScreenTrackingViewControllerDelegate {
         self.view.addSubview(trackingView)
 
         self.configureUI()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.screenTrackingViewController.delegate = self
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.screenTrackingViewController.delegate = nil
     }
 
 

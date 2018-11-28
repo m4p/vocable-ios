@@ -10,6 +10,8 @@ import ARKit
 
 protocol TrackingMethod {
 
+    func intersectionLine(faceAnchor: ARFaceAnchor, withHitTestNode hitTestNode: SCNNode) -> LineSegment
+
     /// Returns the best result, if any, of intersecting a face anchor with a hit test plane.
     ///
     /// The faceAnchor and hitTestPlane must originate from the same scene.
