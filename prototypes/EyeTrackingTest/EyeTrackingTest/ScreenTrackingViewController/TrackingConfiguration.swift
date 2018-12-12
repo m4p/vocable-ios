@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 
 struct TrackingConfiguration {
@@ -24,11 +25,15 @@ struct TrackingConfiguration {
     // MARK: - Default Configurations
 
     static let headTracking: TrackingConfiguration = {
-        return TrackingConfiguration(trackingMethod: HeadDirectionTrackingMethod(), trackingRegion: RectangleTrackingRegion(width: Constants.phoneScreenSize.width, height: Constants.phoneScreenSize.height), trackingType: .head)
+        return TrackingConfiguration(trackingMethod: HeadDirectionTrackingMethod(),
+                                     trackingRegion: RectangleTrackingRegion(
+                                        width: Constants.physicalScreenSize.width,
+                                        height: Constants.physicalScreenSize.height),
+                                     trackingType: .head)
     }()
 
     static let eyeTracking: TrackingConfiguration = {
-        return TrackingConfiguration(trackingMethod: LookAtDirectionTrackingMethod(), trackingRegion: RectangleTrackingRegion(width: Constants.phoneScreenSize.width, height: Constants.phoneScreenSize.height), trackingType: .eye)
+        return TrackingConfiguration(trackingMethod: LookAtDirectionTrackingMethod(), trackingRegion: RectangleTrackingRegion(width: Constants.physicalScreenSize.width, height: Constants.physicalScreenSize.height), trackingType: .eye)
     }()
 
 }

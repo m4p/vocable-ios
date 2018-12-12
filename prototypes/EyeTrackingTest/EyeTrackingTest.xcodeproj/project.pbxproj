@@ -18,6 +18,7 @@
 		13204C5B2180EBD1005410FC /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13204C5A2180EBD1005410FC /* KeyView.swift */; };
 		13204C5D2180EC2D005410FC /* KeyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13204C5C2180EC2D005410FC /* KeyView.xib */; };
 		13204C5F2180EC61005410FC /* NibBackedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13204C5E2180EC61005410FC /* NibBackedView.swift */; };
+		1348069021C1950F000D1F52 /* UIDevice+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1348068F21C1950F000D1F52 /* UIDevice+Model.swift */; };
 		1349DA50218FCDF400FC0411 /* TrackingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1349DA4F218FCDF400FC0411 /* TrackingEngine.swift */; };
 		134B6417214C03FC00285AD5 /* LookAtDirectionIntersectionMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A7B915214C033700714057 /* LookAtDirectionIntersectionMethod.swift */; };
 		134B6419214C3A4B00285AD5 /* TrackingNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134B6418214C3A4B00285AD5 /* TrackingNode.swift */; };
@@ -62,6 +63,7 @@
 		13204C5A2180EBD1005410FC /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		13204C5C2180EC2D005410FC /* KeyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KeyView.xib; sourceTree = "<group>"; };
 		13204C5E2180EC61005410FC /* NibBackedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibBackedView.swift; sourceTree = "<group>"; };
+		1348068F21C1950F000D1F52 /* UIDevice+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Model.swift"; sourceTree = "<group>"; };
 		1349DA4F218FCDF400FC0411 /* TrackingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingEngine.swift; sourceTree = "<group>"; };
 		134B6418214C3A4B00285AD5 /* TrackingNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingNode.swift; sourceTree = "<group>"; };
 		139EDEEB21419D700009A99F /* ScreenTrackingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenTrackingViewController.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				13B715842148464000B3612A /* Constants.swift */,
+				1348068F21C1950F000D1F52 /* UIDevice+Model.swift */,
 				13FE391D215572EC00B6110F /* TrackingType.swift */,
 				13B7158621484B6600B3612A /* TrackingConfiguration.swift */,
 				139EDEEB21419D700009A99F /* ScreenTrackingViewController.swift */,
@@ -325,6 +328,7 @@
 				134B6417214C03FC00285AD5 /* LookAtDirectionIntersectionMethod.swift in Sources */,
 				13DA076C21929D760081754A /* Array+Split.swift in Sources */,
 				134B6419214C3A4B00285AD5 /* TrackingNode.swift in Sources */,
+				1348069021C1950F000D1F52 /* UIDevice+Model.swift in Sources */,
 				13FE392921557E7500B6110F /* QuadrilateralInterpolator.swift in Sources */,
 				13A7B912214C027300714057 /* TrackingMethod.swift in Sources */,
 				13204C5F2180EC61005410FC /* NibBackedView.swift in Sources */,
@@ -489,7 +493,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H4UN8LXK26;
+				DEVELOPMENT_TEAM = Y32EQUAEWX;
 				INFOPLIST_FILE = "$(SRCROOT)/EyeTrackingTest/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -507,7 +511,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H4UN8LXK26;
+				DEVELOPMENT_TEAM = Y32EQUAEWX;
 				INFOPLIST_FILE = "$(SRCROOT)/EyeTrackingTest/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
