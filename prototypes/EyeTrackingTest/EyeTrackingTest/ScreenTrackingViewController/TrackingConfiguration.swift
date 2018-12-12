@@ -11,12 +11,12 @@ import Foundation
 
 struct TrackingConfiguration {
 
-    let trackingMethod: TrackingMethod
+    let intersectionMethod: IntersectionMethod
     let trackingRegion: TrackingRegion
     let trackingType: TrackingType
 
-    init(trackingMethod: TrackingMethod, trackingRegion: TrackingRegion, trackingType: TrackingType) {
-        self.trackingMethod = trackingMethod
+    init(intersectionMethod: IntersectionMethod, trackingRegion: TrackingRegion, trackingType: TrackingType) {
+        self.intersectionMethod = intersectionMethod
         self.trackingRegion = trackingRegion
         self.trackingType = trackingType
     }
@@ -24,11 +24,11 @@ struct TrackingConfiguration {
     // MARK: - Default Configurations
 
     static let headTracking: TrackingConfiguration = {
-        return TrackingConfiguration(trackingMethod: HeadDirectionTrackingMethod(), trackingRegion: RectangleTrackingRegion(width: Constants.phoneScreenSize.width, height: Constants.phoneScreenSize.height), trackingType: .head)
+        return TrackingConfiguration(intersectionMethod: HeadDirectionIntersectionMethod(), trackingRegion: RectangleTrackingRegion(width: Constants.phoneScreenSize.width, height: Constants.phoneScreenSize.height), trackingType: .head)
     }()
 
     static let eyeTracking: TrackingConfiguration = {
-        return TrackingConfiguration(trackingMethod: LookAtDirectionTrackingMethod(), trackingRegion: RectangleTrackingRegion(width: Constants.phoneScreenSize.width, height: Constants.phoneScreenSize.height), trackingType: .eye)
+        return TrackingConfiguration(intersectionMethod: LookAtDirectionIntersectionMethod(), trackingRegion: RectangleTrackingRegion(width: Constants.phoneScreenSize.width, height: Constants.phoneScreenSize.height), trackingType: .eye)
     }()
 
 }

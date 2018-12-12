@@ -122,7 +122,7 @@ class SixButtonKeyboardViewController: UIViewController, ScreenTrackingViewContr
     let trackingView: UIView = UIView()
     lazy var screenTrackingViewController: ScreenTrackingViewController = {
         let vc = ScreenTrackingViewController()
-        vc.delegate = self
+//        vc.delegate = self
         return vc
     }()
 
@@ -130,7 +130,7 @@ class SixButtonKeyboardViewController: UIViewController, ScreenTrackingViewContr
         guard self.isViewLoaded else { return }
 
         self.screenTrackingViewController.showDebug = self.showDebug
-        self.screenTrackingViewController.trackingConfiguration = self.trackingConfiguration
+//        self.screenTrackingViewController.trackingConfiguration = self.trackingConfiguration
     }
 
     override func viewDidLoad() {

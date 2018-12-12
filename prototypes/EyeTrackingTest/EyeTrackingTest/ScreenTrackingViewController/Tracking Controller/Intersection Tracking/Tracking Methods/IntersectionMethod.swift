@@ -1,5 +1,5 @@
 //
-//  TrackingMethod.swift
+//  IntersectionMethod.swift
 //  EyeTrackingTest
 //
 //  Created by Duncan Lewis on 9/14/18.
@@ -8,7 +8,7 @@
 
 import ARKit
 
-protocol TrackingMethod {
+protocol IntersectionMethod {
 
     /// Returns the best result, if any, of intersecting a face anchor with a hit test plane.
     ///
@@ -17,7 +17,7 @@ protocol TrackingMethod {
 
 }
 
-struct TrackingResult {
+struct IntersectionResult {
     let hitTest: SCNHitTestResult
     let unitPositionInPlane: CGPoint
 }

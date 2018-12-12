@@ -11,10 +11,10 @@ import SceneKit
 
 class FaceNode: SCNNode {
 
-    func configure(with trackingConfig: TrackingConfiguration) {
+    func configure(with trackingType: TrackingType) {
         self.resetVisibility()
 
-        switch trackingConfig.trackingType {
+        switch trackingType {
         case .eye:
             self.showLookAtDirection = true
         case .head:

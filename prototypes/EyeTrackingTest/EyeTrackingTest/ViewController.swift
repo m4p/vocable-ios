@@ -78,7 +78,7 @@ class ViewController: UIViewController, ScreenTrackingViewControllerDelegate {
 
         self.buttonStackView.isHidden = self.showDebug
         self.screenTrackingViewController.showDebug = self.showDebug
-        self.screenTrackingViewController.trackingConfiguration = self.trackingConfiguration
+//        self.screenTrackingViewController.trackingConfiguration = self.trackingConfiguration
     }
 
 
@@ -87,7 +87,7 @@ class ViewController: UIViewController, ScreenTrackingViewControllerDelegate {
     let trackingView: UIView = UIView()
     lazy var screenTrackingViewController: ScreenTrackingViewController = {
         let vc = ScreenTrackingViewController()
-        vc.delegate = self
+//        vc.delegate = self
         return vc
     }()
 
