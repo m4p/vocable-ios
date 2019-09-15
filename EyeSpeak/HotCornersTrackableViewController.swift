@@ -134,7 +134,10 @@ class HotCornersTrackableViewController: UIViewController {
         vc.delegate = self
         return vc
     }()
-    
+
+    var trackingDidBegin: Bool = false
+    let trackedPoints: FixedQueue = FixedQueue<CGPoint>(maxSize: 10)
+
     @IBOutlet weak var containerView: UIView!
     
     override func viewDidLoad() {
@@ -232,15 +235,43 @@ extension HotCornersTrackableViewController: ScreenTrackingViewControllerDelegat
             if let position = trackedPositionOnScreen {
                 self.trackingView.isHidden = false
                 let positionInView = self.view.convert(position, from: nil)
-                self.trackingView.center = positionInView
-                if let engine = self.currentTrackingEngine {
-                    _ = engine.updateWithTrackedPoint(position)
-                } else {
-                    _ = self.parentTrackingEngine.updateWithTrackedPoint(position)
-                }
+                self.updateTrackedPosition(positionInView)
             } else {
                 self.trackingView.isHidden = true
             }
         }
+    }
+
+    func updateTrackedPosition(_ position: CGPoint) {
+        if let engine = currentTrackingEngine {
+            _ = engine.updateWithTrackedPoint(position)
+        } else {
+            _ = parentTrackingEngine.updateWithTrackedPoint(position)
+        }
+
+        trackedPoints.add(element: position)
+        let velocity = currentVelocity()
+        print(velocity)
+        guard trackingDidBegin || velocity > 2.0 else {
+            return
+        }
+
+        trackingDidBegin = velocity >= 1
+        let duration = min(Double(1.0 / velocity), 0.5) * 3.0
+
+        let firstAnchorPoint = CGPoint(x: 0.55, y: 0.085)
+        let secondAnchorPoint = CGPoint(x: 0.68, y: 0.53)
+        let animator = UIViewPropertyAnimator(duration: duration, controlPoint1: firstAnchorPoint, controlPoint2: secondAnchorPoint) {
+            self.trackingView.center = position
+        }
+        animator.startAnimation()
+    }
+
+    func currentVelocity() -> CGFloat {
+        guard let first = trackedPoints.elements.first, let last = trackedPoints.elements.last else {
+            return 0
+        }
+
+        return first.distance(from: last) / CGFloat(trackedPoints.elements.count)
     }
 }

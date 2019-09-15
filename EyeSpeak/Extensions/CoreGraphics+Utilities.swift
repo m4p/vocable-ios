@@ -24,6 +24,10 @@ extension CGPoint {
     func multiply(by value: CGFloat) -> CGPoint {
         return CGPoint(x: self.x * value, y: self.y * value)
     }
+
+    func distance(from secondPoint: CGPoint) -> CGFloat {
+        return sqrt(pow(secondPoint.x - x, 2) + pow(secondPoint.y - y, 2))
+    }
 }
 
 extension CGSize {
