@@ -8,69 +8,202 @@
 
 import UIKit
 
-final class GazeEatingView: UIView {
-    override func gazeableHitTest(_ point: CGPoint, with event: UIHeadGazeEvent?) -> UIView? {
-        // Hit test this view's subviews, otherwise swallow the gazeable hit test
-        super.gazeableHitTest(point, with: event) ?? self
+public struct GazableAlertAction {
+
+    enum Style {
+        case `default`
+        case cancel
     }
+
+    let title: String
+    let style: Style? = .default
+    let handler: ((GazableAlertAction) -> Void)?
 }
 
 final class GazeableAlertViewController: UIViewController {
 
-    static func make(_ confirmationAction: (() -> Void)? = nil) -> GazeableAlertViewController {
-        let storyboard = UIStoryboard(name: "GazeableAlertViewController", bundle: nil)
-        let alertViewController = storyboard.instantiateInitialViewController() as! GazeableAlertViewController
-        alertViewController.confirmationAction = confirmationAction
-        return alertViewController
-    }
+    private let regularLeadingTrailingWidth: CGFloat = 250
+    private let compactLeadingTrailingWidth: CGFloat = 25
+    private let regularButtonHeight: CGFloat = 100
+    private let compactButtonHeight: CGFloat = 75
 
-    private var confirmationAction: (() -> Void)?
-    private var alertTitle: String? {
+    private lazy var borderView: BorderedView = {
+        let view = BorderedView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.roundedCorners = .allCorners
+        view.cornerRadius = 14
+        view.fillColor = .alertBackgroundColor
+        return view
+    }()
+
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+
+        if traitCollection.horizontalSizeClass == .regular {
+            label.font = UIFont.systemFont(ofSize: 34)
+        } else {
+            label.font = UIFont.systemFont(ofSize: 17)
+        }
+
+        return label
+    }()
+
+    private lazy var stackView: UIStackView = {
+        let stackView: UIStackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .center
+        stackView.spacing = 0
+        return stackView
+    }()
+
+    private lazy var dividerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .grayDivider
+        return view
+    }()
+
+    private var actions = [GazableAlertAction]() {
         didSet {
-            updateDisplay()
+            updateButtonLayout()
         }
     }
 
-    @IBOutlet private var borderContainerView: BorderedView!
-    @IBOutlet private var alertTitleLabel: UILabel!
-    @IBOutlet private var cancelButton: GazeableButton!
-    @IBOutlet private var confirmButton: GazeableButton!
-    
+    init(alertTitle: String) {
+        super.init(nibName: nil, bundle: nil)
+
+        self.titleLabel.text = alertTitle
+    }
+
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    func addAction(_ action: GazableAlertAction) {
+        actions.append(action)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        cancelButton.backgroundView.roundedCorners = .bottomLeft
-        confirmButton.backgroundView.roundedCorners = .bottomRight
+        view.backgroundColor = .clear
 
-        for button in [cancelButton, confirmButton] {
-            guard let button = button else { continue }
-            
-            button.fillColor = .alertBackgroundColor
-            button.selectionFillColor = .collectionViewBackgroundColor
-            button.setTitleColor(.defaultTextColor, for: .selected)
-            button.backgroundView.cornerRadius = 14
+        setupViews()
+    }
+
+    private func setupViews() {
+
+        view.addSubview(borderView)
+        NSLayoutConstraint.activate([
+            borderView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: traitCollection.horizontalSizeClass == .regular ? regularLeadingTrailingWidth : compactLeadingTrailingWidth),
+            borderView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: traitCollection.horizontalSizeClass == .regular ? -regularLeadingTrailingWidth : -compactLeadingTrailingWidth),
+            borderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            borderView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+
+        borderView.addSubview(titleLabel)
+        borderView.addSubview(dividerView)
+        borderView.addSubview(stackView)
+
+        var virticalPadding: CGFloat
+        var horizontalPadding: CGFloat
+
+        if traitCollection.horizontalSizeClass == .regular {
+            virticalPadding = 41
+            horizontalPadding = 50
+        } else {
+            virticalPadding = 36
+            horizontalPadding = 12
         }
 
-        updateDisplay()
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: borderView.topAnchor, constant: virticalPadding),
+            titleLabel.leadingAnchor.constraint(equalTo: borderView.leadingAnchor, constant: horizontalPadding),
+            titleLabel.trailingAnchor.constraint(equalTo: borderView.trailingAnchor, constant: -horizontalPadding),
+            titleLabel.bottomAnchor.constraint(equalTo: dividerView.topAnchor, constant: -virticalPadding),
+            dividerView.heightAnchor.constraint(equalToConstant: 1),
+            dividerView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
+            dividerView.bottomAnchor.constraint(equalTo: stackView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: borderView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: borderView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: borderView.bottomAnchor)
+        ])
     }
 
-    private func updateDisplay() {
-        guard isViewLoaded else { return }
+    private func updateButtonLayout() {
 
-        alertTitleLabel.text = alertTitle
+        for view in stackView.arrangedSubviews {
+            stackView.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+
+        var firstButton: GazeableButton?
+
+        actions.forEach { action in
+            let button = GazeableButton(frame: .zero)
+            button.fillColor = .alertBackgroundColor
+            button.selectionFillColor = .primaryColor
+            button.setTitleColor(.white, for: .selected)
+            button.setTitleColor(.black, for: .normal)
+            button.setTitle(action.title, for: .normal)
+
+            button.translatesAutoresizingMaskIntoConstraints = false
+            let buttonHeightConstraint = button.heightAnchor.constraint(equalToConstant: traitCollection.horizontalSizeClass == .regular ? regularButtonHeight : compactButtonHeight)
+            buttonHeightConstraint.priority = .defaultHigh
+            buttonHeightConstraint.isActive = true
+
+            //button.addTarget(self, action: #selector(didTapButton(_:)), for: .touchUpInside)
+
+            if stackView.arrangedSubviews.isEmpty {
+                firstButton = button
+                stackView.addArrangedSubview(button)
+
+            } else {
+
+                let dividerView = UIView()
+                dividerView.backgroundColor = .grayDivider
+                dividerView.translatesAutoresizingMaskIntoConstraints = false
+
+                if stackView.axis == .horizontal {
+                    dividerView.widthAnchor.constraint(equalToConstant: 1).isActive = true
+                } else {
+                    dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+                }
+
+                dividerView.heightAnchor.constraint(equalToConstant: traitCollection.horizontalSizeClass == .regular ? regularButtonHeight : compactButtonHeight).isActive = true
+
+                stackView.addArrangedSubview(dividerView)
+                stackView.addArrangedSubview(button)
+
+                stackView.addArrangedSubview(button)
+                if stackView.axis == .horizontal {
+                    button.widthAnchor.constraint(equalTo: firstButton!.widthAnchor).isActive = true
+                } else {
+                    button.heightAnchor.constraint(equalTo: firstButton!.heightAnchor).isActive = true
+                }
+            }
+
+            if actions.count > 2 {
+                stackView.axis = .vertical
+            } else {
+                stackView.axis = .horizontal
+            }
+        }
     }
 
-    public func setAlertTitle(_ title: String) {
-        self.alertTitle = title
-    }
-
-    @IBAction func didSelectCancelButton(_ sender: GazeableButton) {
-        dismiss(animated: true)
-    }
-    
-    @IBAction func didSelectConfirmButton(_ sender: GazeableButton) {
-        dismiss(animated: true) {
-            self.confirmationAction?()
+    func didTapButton(_ action: GazableAlertAction) {
+        if action.style == .cancel {
+            dismiss(animated: true)
+        } else {
+            dismiss(animated: true) {
+                _ = action.handler
+            }
         }
     }
 
