@@ -20,6 +20,13 @@ public struct GazableAlertAction {
     let handler: ((GazableAlertAction) -> Void)?
 }
 
+private final class DividerView: UIView {
+
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 1, height: 1)
+    }
+}
+
 final class GazeableAlertViewController: UIViewController {
 
     private let regularLeadingTrailingWidth: CGFloat = 250
@@ -33,6 +40,19 @@ final class GazeableAlertViewController: UIViewController {
         view.roundedCorners = .allCorners
         view.cornerRadius = 14
         view.fillColor = .alertBackgroundColor
+        return view
+    }()
+
+    private lazy var titleContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        if traitCollection.horizontalSizeClass == .regular {
+            view.layoutMargins = UIEdgeInsets(top: 41, left: 50, bottom: 39, right: 50)
+        } else {
+            view.layoutMargins = UIEdgeInsets(top: 36, left: 12, bottom: 36, right: 12)
+        }
+
         return view
     }()
 
@@ -60,8 +80,8 @@ final class GazeableAlertViewController: UIViewController {
         return stackView
     }()
 
-    private lazy var dividerView: UIView = {
-        let view = UIView()
+    private lazy var dividerView: DividerView = {
+        let view = DividerView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .grayDivider
         return view
@@ -107,32 +127,28 @@ final class GazeableAlertViewController: UIViewController {
             borderView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
 
-        borderView.addSubview(titleLabel)
+        borderView.addSubview(titleContainerView)
+        titleContainerView.addSubview(titleLabel)
         borderView.addSubview(dividerView)
         borderView.addSubview(stackView)
 
-        var virticalPadding: CGFloat
-        var horizontalPadding: CGFloat
-
-        if traitCollection.horizontalSizeClass == .regular {
-            virticalPadding = 41
-            horizontalPadding = 50
-        } else {
-            virticalPadding = 36
-            horizontalPadding = 12
-        }
-
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: borderView.topAnchor, constant: virticalPadding),
-            titleLabel.leadingAnchor.constraint(equalTo: borderView.leadingAnchor, constant: horizontalPadding),
-            titleLabel.trailingAnchor.constraint(equalTo: borderView.trailingAnchor, constant: -horizontalPadding),
-            titleLabel.bottomAnchor.constraint(equalTo: dividerView.topAnchor, constant: -virticalPadding),
-            dividerView.heightAnchor.constraint(equalToConstant: 1),
-            dividerView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
+            titleContainerView.topAnchor.constraint(equalTo: borderView.layoutMarginsGuide.topAnchor),
+            titleContainerView.leadingAnchor.constraint(equalTo: borderView.layoutMarginsGuide.leadingAnchor),
+            titleContainerView.trailingAnchor.constraint(equalTo: borderView.layoutMarginsGuide.trailingAnchor),
+            titleContainerView.bottomAnchor.constraint(equalTo: dividerView.topAnchor),
+            dividerView.widthAnchor.constraint(equalTo: stackView.layoutMarginsGuide.widthAnchor),
             dividerView.bottomAnchor.constraint(equalTo: stackView.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: borderView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: borderView.trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: borderView.bottomAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: titleContainerView.layoutMarginsGuide.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: titleContainerView.layoutMarginsGuide.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: titleContainerView.layoutMarginsGuide.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: titleContainerView.layoutMarginsGuide.bottomAnchor)
         ])
     }
 
@@ -166,22 +182,21 @@ final class GazeableAlertViewController: UIViewController {
 
             } else {
 
-                let dividerView = UIView()
-                dividerView.backgroundColor = .grayDivider
-                dividerView.translatesAutoresizingMaskIntoConstraints = false
+                let separator = UIView()
+                separator.backgroundColor = .grayDivider
+                separator.translatesAutoresizingMaskIntoConstraints = false
 
                 if stackView.axis == .horizontal {
-                    dividerView.widthAnchor.constraint(equalToConstant: 1).isActive = true
+                    separator.widthAnchor.constraint(equalToConstant: 1).isActive = true
                 } else {
-                    dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+                    separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
                 }
 
-                dividerView.heightAnchor.constraint(equalToConstant: traitCollection.horizontalSizeClass == .regular ? regularButtonHeight : compactButtonHeight).isActive = true
+                separator.heightAnchor.constraint(equalToConstant: traitCollection.horizontalSizeClass == .regular ? regularButtonHeight : compactButtonHeight).isActive = true
 
-                stackView.addArrangedSubview(dividerView)
+                stackView.addArrangedSubview(separator)
                 stackView.addArrangedSubview(button)
 
-                stackView.addArrangedSubview(button)
                 if stackView.axis == .horizontal {
                     button.widthAnchor.constraint(equalTo: firstButton!.widthAnchor).isActive = true
                 } else {
