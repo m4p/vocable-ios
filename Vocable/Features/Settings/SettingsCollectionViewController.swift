@@ -218,9 +218,11 @@ class SettingsCollectionViewController: UICollectionViewController, MFMailCompos
         case .headTrackingToggle:
             if AppConfig.isHeadTrackingEnabled {
                 let alertViewController = GazeableAlertViewController(alertTitle: "Turn off head tracking?")
-
                 alertViewController.addAction(GazableAlertAction(title: "Cancel", handler: nil))
-                alertViewController.addAction(GazableAlertAction(title: "Confirm", handler: nil)) // AppConfig.isHeadTrackingEnabled.toggle()
+
+                // Error: Partial application of 'mutating' method is not allowed
+                //alertViewController.addAction(GazableAlertAction(title: "Confirm", handler: AppConfig.isHeadTrackingEnabled.toggle()))
+                alertViewController.addAction(GazableAlertAction(title: "Confirm", handler: nil))
                 present(alertViewController, animated: true)
 
             } else {
@@ -232,7 +234,7 @@ class SettingsCollectionViewController: UICollectionViewController, MFMailCompos
             let alertViewController = GazeableAlertViewController(alertTitle: alertString)
 
             alertViewController.addAction(GazableAlertAction(title: "Cancel", handler: nil))
-            alertViewController.addAction(GazableAlertAction(title: "Confirm", handler: nil)) // self.presentPrivacyAlert()
+            alertViewController.addAction(GazableAlertAction(title: "Confirm", handler: self.presentPrivacyAlert))
             present(alertViewController, animated: true)
 
         case .mySayings:
@@ -241,11 +243,11 @@ class SettingsCollectionViewController: UICollectionViewController, MFMailCompos
             }
         case .contactDevs:
             let alertString = "You're about to be taken outside of the Vocable app. You may lose head tracking control."
-             let alertViewController = GazeableAlertViewController(alertTitle: alertString)
+            let alertViewController = GazeableAlertViewController(alertTitle: alertString)
 
-             alertViewController.addAction(GazableAlertAction(title: "Cancel", handler: nil))
-             alertViewController.addAction(GazableAlertAction(title: "Confirm", handler: nil)) // self.presentEmail()
-             present(alertViewController, animated: true)
+            alertViewController.addAction(GazableAlertAction(title: "Cancel", handler: nil))
+            alertViewController.addAction(GazableAlertAction(title: "Confirm", handler: self.presentEmail))
+            present(alertViewController, animated: true)
 
         case .pidTuner:
             guard let gazeWindow = view.window as? HeadGazeWindow else { return }

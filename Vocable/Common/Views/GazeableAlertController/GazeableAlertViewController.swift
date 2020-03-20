@@ -8,16 +8,16 @@
 
 import UIKit
 
-public struct GazableAlertAction {
-
-    enum Style {
-        case `default`
-        case cancel
-    }
+final class GazableAlertAction: NSObject {
 
     let title: String
-    let style: Style? = .default
-    let handler: ((GazableAlertAction) -> Void)?
+    @objc let handler: (() -> Void)?
+
+    init(title: String, handler: (() -> Void)?) {
+        self.title = title
+        self.handler = handler
+    }
+
 }
 
 private final class DividerView: UIView {
@@ -174,7 +174,14 @@ final class GazeableAlertViewController: UIViewController {
             buttonHeightConstraint.priority = .defaultHigh
             buttonHeightConstraint.isActive = true
 
-            //button.addTarget(self, action: #selector(didTapButton(_:)), for: .touchUpInside)
+            // Error: Argument of '#selector' does not refer to an '@objc' method, property, or initializer
+            //button.addTarget(self, action: #selector(didTapButton(action)), for: .touchUpInside)
+
+            if action.handler != nil {
+                button.addTarget(self, action: #selector(getter: action.handler), for: .touchUpInside)
+            } else {
+                button.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
+            }
 
             if stackView.arrangedSubviews.isEmpty {
                 firstButton = button
@@ -212,14 +219,13 @@ final class GazeableAlertViewController: UIViewController {
         }
     }
 
-    func didTapButton(_ action: GazableAlertAction) {
-        if action.style == .cancel {
-            dismiss(animated: true)
-        } else {
-            dismiss(animated: true) {
-                _ = action.handler
-            }
-        }
+    @objc func dismissAlert() {
+        self.dismiss(animated: true)
+    }
+
+    @objc func didTapButton(_ sender: GazableAlertAction) {
+        guard let handler = sender.handler else { return }
+        handler()
     }
 
 }
